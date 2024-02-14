@@ -1,0 +1,54 @@
+@font-face {
+    font-display: swap;
+    font-family: 'Topaz PLus';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../public/fonts/TopazPlusa600a1200a4000.woff2') format('woff2'),
+    url('../public/fonts/TopazPlusa600a1200a4000.woff') format('woff');
+}
+
+body, pre {
+    font-family: 'Topaz PLus', sans-serif !important;
+}
+
+h3 {
+    button {
+        margin-right: 10px;
+        position: relative;
+        font-size: 14px;
+        padding: 10px;
+
+        sub {
+            position: absolute;
+            bottom: 6px;
+            right: 1px;
+            font-size: 10px;
+        }
+    }
+}
+
+.ansi {
+    font-size: 24px;
+    line-height: 1;
+
+    div:last-child {
+        span {
+            border-bottom: 1px solid #ccc;
+        }
+    }
+
+    span {
+        display: inline-block;
+        box-shadow: inset 1px 1px 0 0 #ccc;
+        width: 12px;
+        height: 24px;
+
+        &.active{
+            background-color: salmon;
+        }
+
+        &:last-child {
+            border-right: 1px solid #ccc;
+        }
+    }
+}
