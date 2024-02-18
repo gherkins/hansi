@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "./static/css/main.5d55bfe5.css",
-    "main.js": "./static/js/main.89b8e97f.js",
+    "main.js": "./static/js/main.764ca0b8.js",
     "static/media/TopazPlusa600a1200a4000.woff": "./static/media/TopazPlusa600a1200a4000.de1bac062f9301b15b06.woff",
     "static/media/TopazPlusa600a1200a4000.woff2": "./static/media/TopazPlusa600a1200a4000.3f7418026d88a82d4f34.woff2",
     "index.html": "./index.html",
     "main.5d55bfe5.css.map": "./static/css/main.5d55bfe5.css.map",
-    "main.89b8e97f.js.map": "./static/js/main.89b8e97f.js.map"
+    "main.764ca0b8.js.map": "./static/js/main.764ca0b8.js.map"
   },
   "entrypoints": [
     "static/css/main.5d55bfe5.css",
-    "static/js/main.89b8e97f.js"
+    "static/js/main.764ca0b8.js"
   ]
 }
