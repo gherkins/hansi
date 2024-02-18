@@ -9,16 +9,19 @@ function App () {
   const rows = 25
   const cols = 100
 
-  const chars = [
-    '|',
-    '_',
-    '/',
-    '\\',
-    ':',
-    '`',
-    '´',
-    '-',
-  ]
+  let chars = window.location.hash.substring(1).split('')
+  if( chars.length === 0 ) {
+    chars = [
+      '|',
+      '_',
+      '/',
+      '\\',
+      ':',
+      '`',
+      '´',
+      '-',
+    ]
+  }
 
   const [activeRow, setActiveRow] = useState(8)
   const [activeCol, setActiveCol] = useState(24)
@@ -50,9 +53,13 @@ function App () {
     setActiveCol(activeCol + 4 < cols ? activeCol + 4 : cols)
   })
 
-  Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9'], e => {
+  Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], e => {
     e.preventDefault()
-    contents[activeRow][activeCol] = chars[parseInt(e.key) - 1]
+    let key = parseInt(e.key)
+    if (key === 0) {
+      key = 10
+    }
+    contents[activeRow][activeCol] = chars[key - 1]
     setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols)
   })
 
