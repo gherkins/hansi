@@ -9,8 +9,9 @@ function App () {
   const rows = 25
   const cols = 100
 
-  let chars = window.location.hash.substring(1).split('')
-  if( chars.length === 0 ) {
+  let chars = decodeURIComponent(window.location.hash.substring(1)).split('')
+  chars = chars.slice(0, 10)
+  if (chars.length === 0) {
     chars = [
       '|',
       '_',
@@ -73,7 +74,13 @@ function App () {
     <div className="container">
       <h3>
 
-        {chars.map((char, i) => <button key={i}>{char}<sub>{i + 1}</sub></button>)}
+        {chars.map((char, i) => {
+          let key = i + 1
+          if (key === 10) {
+            key = 0
+          }
+          return <button key={i}>{char}<sub>{key}</sub></button>
+        })}
         <button onClick={() => {
           let text = ''
           contents.forEach(row => {
