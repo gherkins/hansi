@@ -1,6 +1,6 @@
 import './App.scss'
 import 'bootstrap/dist/css/bootstrap.css'
-import { useRef, useState } from 'react'
+import { useState } from 'react'
 
 import * as Mousetrap from 'mousetrap'
 
@@ -28,7 +28,6 @@ function App () {
   const [selectionFrom, setSelectionFrom] = useState({ x: null, y: null })
   const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
 
-  const currentSpan = useRef()
   const [, updateState] = useState()
 
   const clearSelection = () => {
@@ -130,14 +129,16 @@ function App () {
 
   Mousetrap.bind('space', e => {
     e.preventDefault()
+    clearSelection()
     contents[cursorY][cursorX] = ' '
     moveCursorRight()
   })
 
   Mousetrap.bind('backspace', e => {
     e.preventDefault()
+    clearSelection()
     moveCursorLeft()
-    contents[cursorY][cursorX ] = ' '
+    contents[cursorY][cursorX] = ' '
   })
 
   return (
@@ -174,22 +175,14 @@ function App () {
             const selection = getSelection()
             const selected = row >= selection.from.y && row <= selection.to.y && col >= selection.from.x && col <= selection.to.x
 
-            const classes = []
-            if (active) {
-              classes.push('active')
-            }
-            if (oddCol) {
-              classes.push('odd-col')
-            }
-            if (oddRow) {
-              classes.push('odd-row')
-            }
-            if (selected) {
-              classes.push('selected')
-            }
+            const classes = [
+              active ? 'active' : '',
+              oddCol ? 'odd-col' : '',
+              oddRow ? 'odd-row' : '',
+              selected ? 'selected' : '',
+            ]
 
             return <span
-              ref={active ? currentSpan : null}
               className={classes.join(' ')}
               key={`${row}-${col}`}
             >
