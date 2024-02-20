@@ -43,15 +43,20 @@ h3 {
         width: 12px;
         height: 24px;
 
-        &.active{
+        &.active {
             background-color: salmon !important;
         }
 
-        &.odd-col{
-            background-color: #f5f5f5;
+        &.odd-col {
+            box-shadow: inset 2px 1px 0 0 #ccc;
         }
-        &.odd-row{
-            background-color: #f5f5f5;
+
+        &.odd-row {
+            box-shadow: inset 1px 2px 0 0 #ccc;
+        }
+
+        &.odd-col.odd-row {
+            box-shadow: inset 2px 2px 0 0 #ccc;
         }
 
         &:last-child {
