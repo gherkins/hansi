@@ -11,17 +11,10 @@ function App () {
 
   let chars = decodeURIComponent(window.location.hash.substring(1)).split('')
   chars = chars.slice(0, 10)
+
   if (chars.length === 0) {
-    chars = [
-      '|',
-      '_',
-      '/',
-      '\\',
-      ':',
-      '`',
-      '´',
-      '-',
-    ]
+    const hash = '|_/\\:`´-\''
+    window.location.hash = `#${encodeURIComponent(hash)}`
   }
 
   const [activeRow, setActiveRow] = useState(8)
@@ -37,21 +30,21 @@ function App () {
         setActiveRow(activeRow - 1 > 0 ? activeRow - 1 : 0)
         break
       case 'ArrowDown':
-        setActiveRow(activeRow + 1 < rows ? activeRow + 1 : rows)
+        setActiveRow(activeRow + 1 < rows ? activeRow + 1 : rows - 1)
         break
       case 'ArrowLeft':
         setActiveCol(activeCol - 1 > 0 ? activeCol - 1 : 0)
         break
       case 'ArrowRight':
       default:
-        setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols)
+        setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols - 1)
         break
     }
   })
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
-    setActiveCol(activeCol + 4 < cols ? activeCol + 4 : cols)
+    setActiveCol(activeCol + 4 < cols ? activeCol + 4 : cols - 1)
   })
 
   Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], e => {
@@ -98,9 +91,23 @@ function App () {
         {(new Array(rows)).fill(0).map((i, row) => <div key={row}>
           {(new Array(cols)).fill(0).map((i, col) => {
             const active = activeRow === row && activeCol === col
+            const oddCol = col % 4 === 0
+            const oddRow = row % 3 === 0
+
+            const classes = []
+            if (active) {
+              classes.push('active')
+            }
+            if (oddCol) {
+              classes.push('odd-col')
+            }
+            if (oddRow) {
+              classes.push('odd-row')
+            }
+
             return <span
               ref={active ? currentSpan : null}
-              className={active ? 'active' : ''}
+              className={classes.join(' ')}
               key={`${row}-${col}`}
             >
               {contents[row][col] || ' '}
