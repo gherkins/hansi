@@ -4,9 +4,12 @@ import { useRef, useState } from 'react'
 
 import * as Mousetrap from 'mousetrap'
 
+let cursorX = 24
+let cursorY = 6
+
 function App () {
 
-  const rows = 25
+  const rows = 24
   const cols = 100
 
   let chars = decodeURIComponent(window.location.hash.substring(1)).split('')
@@ -17,15 +20,38 @@ function App () {
     window.location.hash = `#${encodeURIComponent(hash)}`
   }
 
-  const [cursorY, setCursorY] = useState(8)
-  const [cursorX, setCursorX] = useState(24)
-  const [contents] = useState((new Array(25)).fill(0).map(() => (new Array(100)).fill(0)))
-  const [, updateState] = useState()
+  const grid = (new Array(25)).fill(0).map(() =>
+    (new Array(100)).fill(0),
+  )
+  const [contents] = useState(grid)
+
+  const [selectionFrom, setSelectionFrom] = useState({ x: null, y: null })
+  const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
 
   const currentSpan = useRef()
+  const [, updateState] = useState()
+
+  const clearSelection = () => {
+    setSelectionFrom({ x: null, y: null })
+    setSelectionTo({ x: null, y: null })
+  }
+
+  const getSelection = () => {
+    return {
+      from: {
+        x: Math.min(selectionFrom.x || -1, selectionTo.x || -1),
+        y: Math.min(selectionFrom.y || -1, selectionTo.y || -1),
+      },
+      to: {
+        x: Math.max(selectionFrom.x || -1, selectionTo.x || -1),
+        y: Math.max(selectionFrom.y || -1, selectionTo.y || -1),
+      },
+    }
+  }
 
   Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
     e.preventDefault()
+    clearSelection()
     switch (e.key) {
       case 'ArrowUp':
         await moveCursorUp()
@@ -43,25 +69,53 @@ function App () {
     }
   })
 
+  Mousetrap.bind(['shift+up', 'shift+down', 'shift+left', 'shift+right'], async e => {
+    e.preventDefault()
+    if (null === selectionFrom.x) {
+      setSelectionFrom({ x: cursorX, y: cursorY })
+    }
+    switch (e.key) {
+      case 'ArrowUp':
+        await moveCursorUp()
+        break
+      case 'ArrowDown':
+        await moveCursorDown()
+        break
+      case 'ArrowLeft':
+        await moveCursorLeft()
+        break
+      case 'ArrowRight':
+      default:
+        await moveCursorRight()
+        break
+    }
+    setSelectionTo({ x: cursorX, y: cursorY })
+  })
+
   const moveCursorLeft = () => {
-    setCursorX(cursorX - 1 > 0 ? cursorX - 1 : 0)
+    cursorX = (cursorX - 1 > 0 ? cursorX - 1 : 0)
+    updateState({})
   }
 
   const moveCursorRight = () => {
-    setCursorX(cursorX + 1 < cols ? cursorX + 1 : cols - 1)
+    cursorX = (cursorX + 1 < cols ? cursorX + 1 : cols - 1)
+    updateState({})
   }
 
   const moveCursorUp = () => {
-    setCursorY(cursorY - 1 > 0 ? cursorY - 1 : 0)
+    cursorY = (cursorY - 1 > 0 ? cursorY - 1 : 0)
+    updateState({})
   }
 
   const moveCursorDown = () => {
-    setCursorY(cursorY + 1 < rows ? cursorY + 1 : rows - 1)
+    cursorY = (cursorY + 1 < rows ? cursorY + 1 : rows - 1)
+    updateState({})
   }
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
-    setCursorX(cursorX + 4 < cols ? cursorX + 4 : cols - 1)
+    cursorX = (cursorX + 4 < cols ? cursorX + 4 : cols - 1)
+    updateState({})
   })
 
   Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], e => {
@@ -82,10 +136,8 @@ function App () {
 
   Mousetrap.bind('backspace', e => {
     e.preventDefault()
-    console.log(cursorX)
     moveCursorLeft()
-    console.log(cursorX)
-    contents[cursorY][cursorX] = ' '
+    contents[cursorY][cursorX ] = ' '
   })
 
   return (
@@ -119,6 +171,9 @@ function App () {
             const oddCol = col % 4 === 0
             const oddRow = row % 3 === 0
 
+            const selection = getSelection()
+            const selected = row >= selection.from.y && row <= selection.to.y && col >= selection.from.x && col <= selection.to.x
+
             const classes = []
             if (active) {
               classes.push('active')
@@ -128,6 +183,9 @@ function App () {
             }
             if (oddRow) {
               classes.push('odd-row')
+            }
+            if (selected) {
+              classes.push('selected')
             }
 
             return <span
