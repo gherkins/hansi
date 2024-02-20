@@ -191,6 +191,19 @@ function App () {
           })}
         </div>)}
       </div>
+      <div className="manual pt-4">
+        * Arrow keys: move cursor<br />
+        * Number keys: write characters in current block<br />
+        * Spacebar: clear current block <br />
+        * Backspace: clear previous block<br />
+        * Tab: jump 4 blocks to the right<br />
+        <br />
+        * Shift + Arrow keys: select blocks<br />
+        * Alt + Arrow keys: move selected block<br />
+        * C: copy selected block<br />
+        * X: cut selected block<br />
+        * V: paste selected block<br />
+      </div>
     </div>
   )
 }
