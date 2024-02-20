@@ -17,8 +17,8 @@ function App () {
     window.location.hash = `#${encodeURIComponent(hash)}`
   }
 
-  const [activeRow, setActiveRow] = useState(8)
-  const [activeCol, setActiveCol] = useState(24)
+  const [cursorY, setCursorY] = useState(8)
+  const [cursorX, setCursorX] = useState(24)
   const [contents] = useState((new Array(25)).fill(0).map(() => (new Array(100)).fill(0)))
   const [, updateState] = useState()
 
@@ -44,23 +44,24 @@ function App () {
   })
 
   const moveCursorLeft = () => {
-    setActiveCol(activeCol - 1 > 0 ? activeCol - 1 : 0)
+    setCursorX(cursorX - 1 > 0 ? cursorX - 1 : 0)
   }
+
   const moveCursorRight = () => {
-    setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols - 1)
+    setCursorX(cursorX + 1 < cols ? cursorX + 1 : cols - 1)
   }
 
   const moveCursorUp = () => {
-    setActiveRow(activeRow - 1 > 0 ? activeRow - 1 : 0)
+    setCursorY(cursorY - 1 > 0 ? cursorY - 1 : 0)
   }
 
   const moveCursorDown = () => {
-    setActiveRow(activeRow + 1 < rows ? activeRow + 1 : rows - 1)
+    setCursorY(cursorY + 1 < rows ? cursorY + 1 : rows - 1)
   }
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
-    setActiveCol(activeCol + 4 < cols ? activeCol + 4 : cols - 1)
+    setCursorX(cursorX + 4 < cols ? cursorX + 4 : cols - 1)
   })
 
   Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], e => {
@@ -69,22 +70,22 @@ function App () {
     if (key === 0) {
       key = 10
     }
-    contents[activeRow][activeCol] = chars[key - 1]
+    contents[cursorY][cursorX] = chars[key - 1]
     moveCursorRight()
   })
 
   Mousetrap.bind('space', e => {
     e.preventDefault()
-    contents[activeRow][activeCol] = ' '
+    contents[cursorY][cursorX] = ' '
     moveCursorRight()
   })
 
   Mousetrap.bind('backspace', e => {
     e.preventDefault()
-    console.log(activeCol)
+    console.log(cursorX)
     moveCursorLeft()
-    console.log(activeCol)
-    contents[activeRow][activeCol] = ' '
+    console.log(cursorX)
+    contents[cursorY][cursorX] = ' '
   })
 
   return (
@@ -114,7 +115,7 @@ function App () {
       <div className="ansi">
         {(new Array(rows)).fill(0).map((i, row) => <div key={row}>
           {(new Array(cols)).fill(0).map((i, col) => {
-            const active = activeRow === row && activeCol === col
+            const active = cursorY === row && cursorX === col
             const oddCol = col % 4 === 0
             const oddRow = row % 3 === 0
 
