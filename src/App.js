@@ -20,27 +20,43 @@ function App () {
   const [activeRow, setActiveRow] = useState(8)
   const [activeCol, setActiveCol] = useState(24)
   const [contents] = useState((new Array(25)).fill(0).map(() => (new Array(100)).fill(0)))
+  const [, updateState] = useState()
 
   const currentSpan = useRef()
 
-  Mousetrap.bind(['up', 'down', 'left', 'right'], e => {
+  Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
     e.preventDefault()
     switch (e.key) {
       case 'ArrowUp':
-        setActiveRow(activeRow - 1 > 0 ? activeRow - 1 : 0)
+        await moveCursorUp()
         break
       case 'ArrowDown':
-        setActiveRow(activeRow + 1 < rows ? activeRow + 1 : rows - 1)
+        await moveCursorDown()
         break
       case 'ArrowLeft':
-        setActiveCol(activeCol - 1 > 0 ? activeCol - 1 : 0)
+        await moveCursorLeft()
         break
       case 'ArrowRight':
       default:
-        setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols - 1)
+        await moveCursorRight()
         break
     }
   })
+
+  const moveCursorLeft = () => {
+    setActiveCol(activeCol - 1 > 0 ? activeCol - 1 : 0)
+  }
+  const moveCursorRight = () => {
+    setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols - 1)
+  }
+
+  const moveCursorUp = () => {
+    setActiveRow(activeRow - 1 > 0 ? activeRow - 1 : 0)
+  }
+
+  const moveCursorDown = () => {
+    setActiveRow(activeRow + 1 < rows ? activeRow + 1 : rows - 1)
+  }
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
@@ -54,13 +70,21 @@ function App () {
       key = 10
     }
     contents[activeRow][activeCol] = chars[key - 1]
-    setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols)
+    moveCursorRight()
   })
 
   Mousetrap.bind('space', e => {
     e.preventDefault()
     contents[activeRow][activeCol] = ' '
-    setActiveCol(activeCol + 1 < cols ? activeCol + 1 : cols)
+    moveCursorRight()
+  })
+
+  Mousetrap.bind('backspace', e => {
+    e.preventDefault()
+    console.log(activeCol)
+    moveCursorLeft()
+    console.log(activeCol)
+    contents[activeRow][activeCol] = ' '
   })
 
   return (
@@ -84,7 +108,7 @@ function App () {
           })
 
           navigator.clipboard.writeText(text)
-        }}>copy
+        }}>copy all
         </button>
       </h3>
       <div className="ansi">
