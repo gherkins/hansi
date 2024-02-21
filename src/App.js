@@ -96,6 +96,12 @@ function App () {
     return [bufferStartY, bufferStartX]
   }
 
+  const getBufferEnd = () => {
+    const bufferEndY = parseInt(Object.keys(buffer).pop())
+    const bufferEndX = parseInt(Object.keys(buffer[bufferEndY]).pop())
+    return [bufferEndY, bufferEndX]
+  }
+
   const applyBuffer = () => {
     if (0 === getBufferSize()) {
       return false
@@ -204,11 +210,16 @@ function App () {
     clearSelection()
     resetSelection()
     const [bufferStartY, bufferStartX] = getBufferStart()
+    const [bufferEndY, bufferEndX] = getBufferEnd()
+    const bufferWidth = bufferEndX - bufferStartX
+    const bufferHeight = bufferEndY - bufferStartY
     cursorX = bufferStartX
     cursorY = bufferStartY
     await handleCursorMovement(e.key)
     applyBuffer()
     clearBuffer()
+    setSelectionFrom({ x: cursorX, y: cursorY })
+    setSelectionTo({ x: cursorX + bufferWidth, y: cursorY + bufferHeight })
     updateState({})
   })
 

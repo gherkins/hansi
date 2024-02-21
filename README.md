@@ -17,18 +17,18 @@ up to 10 characters.
 ## CONTROLS:
 
 - Arrow keys: move cursor
-- Number keys: write character in current block
+- Number keys: write character in current field
 
 
-- Space: clear current block 
-- Backspace: clear previous block
+- Space: clear current field
+- Backspace: clear previous field
 
 
-- Tab: jump 4 blocks to the right
-- Shift + Tab: jump 4 blocks to the left
+- Tab: jump 4 fields to the right
+- Shift + Tab: jump 4 fields to the left
 
 
-- Shift + Arrow keys: select blocks
+- Shift + Arrow keys: select fields as block
 - Alt + Arrow keys: move selected block
 - C: copy selected block
 - X: cut selected block
