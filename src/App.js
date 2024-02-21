@@ -90,12 +90,17 @@ function App () {
     }
   }
 
+  const getBufferStart = () => {
+    const bufferStartY = parseInt(Object.keys(buffer)[0])
+    const bufferStartX = parseInt(Object.keys(buffer[bufferStartY])[0])
+    return [bufferStartY, bufferStartX]
+  }
+
   const applyBuffer = () => {
     if (0 === getBufferSize()) {
       return false
     }
-    const bufferStartY = parseInt(Object.keys(buffer)[0])
-    const bufferStartX = parseInt(Object.keys(buffer[bufferStartY])[0])
+    const [bufferStartY, bufferStartX] = getBufferStart()
 
     const offsetX = cursorX - bufferStartX
     const offsetY = cursorY - bufferStartY
@@ -157,10 +162,8 @@ function App () {
     navigator.clipboard.writeText(text)
   }
 
-  Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
-    e.preventDefault()
-    resetSelection()
-    switch (e.key) {
+  const handleCursorMovement = async key => {
+    switch (key) {
       case 'ArrowUp':
         await moveCursorUp()
         break
@@ -175,6 +178,12 @@ function App () {
         await moveCursorRight()
         break
     }
+  }
+
+  Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
+    e.preventDefault()
+    resetSelection()
+    await handleCursorMovement(e.key)
   })
 
   Mousetrap.bind(['shift+up', 'shift+down', 'shift+left', 'shift+right'], async e => {
@@ -182,22 +191,23 @@ function App () {
     if (null === selectionFrom.x) {
       setSelectionFrom({ x: cursorX, y: cursorY })
     }
-    switch (e.key) {
-      case 'ArrowUp':
-        await moveCursorUp()
-        break
-      case 'ArrowDown':
-        await moveCursorDown()
-        break
-      case 'ArrowLeft':
-        await moveCursorLeft()
-        break
-      case 'ArrowRight':
-      default:
-        await moveCursorRight()
-        break
-    }
+    await handleCursorMovement(e.key)
     setSelectionTo({ x: cursorX, y: cursorY })
+  })
+
+  Mousetrap.bind(['alt+up', 'alt+down', 'alt+left', 'alt+right'], async e => {
+    e.preventDefault()
+    if (0 === getSelectionSize()) {
+      return false
+    }
+    copySelectionToBuffer()
+    clearSelection()
+    const [bufferStartY, bufferStartX] = getBufferStart()
+    cursorX = bufferStartX
+    cursorY = bufferStartY
+    await handleCursorMovement(e.key)
+    applyBuffer()
+    updateState({})
   })
 
   Mousetrap.bind('tab', e => {
