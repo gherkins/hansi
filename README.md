@@ -1,10 +1,27 @@
-# hANSI - simple text art editor   
+# hANSI - minimalist text art editor   
+
+## LIVE: 
+
+https://datenkatze.de/hansi/
+
+## CHARSET:
+
+default charset: ```|_/\:\`´-'```
+
+simply append any charset you like to the URL, like so:
+
+https://datenkatze.de/hansi/#|()([]){}
+
+## CONTROLS:
 
 * Arrow keys: move cursor
 * Number keys: write character in current block
+
+
 * Spacebar: clear current block 
 * Backspace: clear previous block
 * Tab: jump 4 blocks to the right
+
 
 * <del>Shift + Arrow keys: select blocks</del>
 * <del>Alt + Arrow keys: move selected block</del>
