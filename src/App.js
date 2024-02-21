@@ -207,6 +207,7 @@ function App () {
     cursorY = bufferStartY
     await handleCursorMovement(e.key)
     applyBuffer()
+    clearBuffer()
     updateState({})
   })
 
