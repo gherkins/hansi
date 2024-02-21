@@ -202,6 +202,7 @@ function App () {
     }
     copySelectionToBuffer()
     clearSelection()
+    resetSelection()
     const [bufferStartY, bufferStartX] = getBufferStart()
     cursorX = bufferStartX
     cursorY = bufferStartY

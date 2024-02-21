@@ -20,7 +20,7 @@ up to 10 characters.
 - Number keys: write character in current block
 
 
-- Spacebar: clear current block 
+- Space: clear current block 
 - Backspace: clear previous block
 
 
@@ -28,14 +28,19 @@ up to 10 characters.
 - Shift + Tab: jump 4 blocks to the left
 
 
-- CMD + C: copy everything to clipboard
-
-
 - Shift + Arrow keys: select blocks
 - Alt + Arrow keys: move selected block
 - C: copy selected block
 - X: cut selected block
 - V: paste selected block
+
+
+- CMD + C: copy everything to clipboard
+
+
+- <del>W: flip selection horizontally</del>
+- <del>A: flip selection vertically</del>
+- <del>D: rotate selection 90° clockwise</del>
 
 --------------------------------------
 ---
