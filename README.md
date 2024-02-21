@@ -18,7 +18,6 @@ up to 10 characters.
 
 - Arrow keys: move cursor
 - Number keys: write character in current block
-- <del>ESC + U: undo</del>
 
 
 - Spacebar: clear current block 
@@ -30,11 +29,10 @@ up to 10 characters.
 
 
 - CMD + C: copy everything to clipboard
-- <del>CMD + V: paste everything from clipboard</del>
 
 
 - Shift + Arrow keys: select blocks
-- <del>Alt + Arrow keys: move selected block</del>
+- Alt + Arrow keys: move selected block
 - C: copy selected block
 - X: cut selected block
 - V: paste selected block
