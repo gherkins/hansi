@@ -35,9 +35,9 @@ up to 10 characters.
 
 - Shift + Arrow keys: select blocks
 - <del>Alt + Arrow keys: move selected block</del>
-- <del>C: copy selected block</del>
-- <del>X: cut selected block</del>
-- <del>V: paste selected block</del>
+- C: copy selected block
+- X: cut selected block
+- V: paste selected block
 
 --------------------------------------
 ---

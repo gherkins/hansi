@@ -50,7 +50,8 @@ function App () {
     }
   }
 
-  const getSelectionSize = (selection) => {
+  const getSelectionSize = () => {
+    const selection = getSelection()
     let x = selection.to.x - selection.from.x
     let y = selection.to.y - selection.from.y
     if (x > 0 || y > 0) {
@@ -60,11 +61,20 @@ function App () {
     return x * y
   }
 
-  const clearSelection = (block) => {
-
+  const clearSelection = () => {
+    const selection = getSelection()
+    for (let row = selection.from.y; row <= selection.to.y; row++) {
+      for (let col = selection.from.x; col <= selection.to.x; col++) {
+        contents[row] = contents[row] || {}
+        contents[row][col] = ' '
+      }
+    }
   }
 
-  const copySelectionToBuffer = (block) => {
+  const copySelectionToBuffer = () => {
+    if (0 === getSelectionSize()) {
+      return false
+    }
     buffer = {}
     const selection = getSelection()
     for (let row = selection.from.y; row <= selection.to.y; row++) {
@@ -77,7 +87,25 @@ function App () {
   }
 
   const applyBuffer = () => {
+    if (0 === getBufferSize()) {
+      return false
+    }
+    const bufferStartY = parseInt(Object.keys(buffer)[0])
+    const bufferStartX = parseInt(Object.keys(buffer[bufferStartY])[0])
 
+    const offsetX = cursorX - bufferStartX
+    const offsetY = cursorY - bufferStartY
+
+    for (let row in buffer) {
+      for (let col in buffer[row]) {
+        const newRow = parseInt(row) + offsetY
+        const newCol = parseInt(col) + offsetX
+        if (newRow >= 0 && newRow < rows && newCol >= 0 && newCol < cols) {
+          contents[newRow][newCol] = buffer[row][col]
+        }
+      }
+    }
+    updateState({})
   }
 
   const clearBuffer = () => {
