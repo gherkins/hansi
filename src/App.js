@@ -9,6 +9,18 @@ let cursorY = 3
 
 function App () {
 
+  const grid = (new Array(25)).fill(0).map(() =>
+    (new Array(100)).fill(0),
+  )
+  const [contents] = useState(grid)
+
+  const [selectionFrom, setSelectionFrom] = useState({ x: null, y: null })
+  const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
+
+  const [blocksSelected, setBlockSelected] = useState(0)
+
+  const [, updateState] = useState()
+
   const rows = 15
   const cols = 64
 
@@ -18,17 +30,8 @@ function App () {
   if (chars.length === 0) {
     const hash = '|_/\\:`´-\''
     window.location.hash = `#${encodeURIComponent(hash)}`
+    updateState({})
   }
-
-  const grid = (new Array(25)).fill(0).map(() =>
-    (new Array(100)).fill(0),
-  )
-  const [contents] = useState(grid)
-
-  const [selectionFrom, setSelectionFrom] = useState({ x: null, y: null })
-  const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
-
-  const [, updateState] = useState()
 
   const clearSelection = () => {
     setSelectionFrom({ x: null, y: null })
@@ -44,6 +47,41 @@ function App () {
       to: {
         x: Math.max(selectionFrom.x || -1, selectionTo.x || -1),
         y: Math.max(selectionFrom.y || -1, selectionTo.y || -1),
+      },
+    }
+  }
+
+  const getBlockSize = (block) => {
+    let x = block.to.x - block.from.x
+    let y = block.to.y - block.from.y
+    if (x > 0 || y > 0) {
+      x++
+      y++
+    }
+    return x * y
+  }
+
+  const copyBlockToBuffer = (block) => {
+
+  }
+
+  const pasteBlock = (block) => {
+
+  }
+
+  const clearBlock = (block) => {
+
+  }
+
+  const getBuffer = () => {
+    return {
+      from: {
+        x: 0,
+        y: 0,
+      },
+      to: {
+        x: 0,
+        y: 0,
       },
     }
   }
@@ -209,6 +247,10 @@ function App () {
            className="text-muted">
           https://github.com/gherkins/hansi
         </a> #rtfm
+      </p>
+      <p>
+        {String(getBlockSize(getSelection())).padStart(4, '0')} chars selected<br />
+        {String(getBlockSize(getBuffer())).padStart(4, '0')} in copy buffer
       </p>
     </div>
   )

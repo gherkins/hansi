@@ -60,11 +60,11 @@ $gridColor: #343a41;
         }
 
         &.selected {
-            background-color: cyan;
+            background-color: lighten($gridColor, 5);
         }
 
-        &.active.selected {
-            background-color: lightblue !important;
+        &.selected.active {
+            background-color: lighten($gridColor, 20) !important;
         }
 
         &.odd-col.odd-row {
