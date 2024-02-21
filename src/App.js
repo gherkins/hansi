@@ -195,7 +195,10 @@ function App () {
         </div>)}
       </div>
       <p className="pt-4 text-muted">
-        <a href="https://github.com/gherkins/hansi" className="text-muted">
+        <a href="https://github.com/gherkins/hansi"
+           target="_blank"
+           rel="noreferrer"
+           className="text-muted">
           https://github.com/gherkins/hansi
         </a> #rtfm
       </p>
