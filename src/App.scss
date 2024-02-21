@@ -27,19 +27,23 @@ h3 {
     }
 }
 
+
+$gridColor: #343a41;
+
 .ansi {
     font-size: 24px;
     line-height: 1;
 
     div:last-child {
         span {
-            border-bottom: 2px solid #ccc;
+            border-bottom: 2px solid $gridColor;
         }
     }
 
     span {
+        color: #fff;
         display: inline-block;
-        box-shadow: inset 1px 1px 0 0 #ccc;
+        box-shadow: inset 1px 1px 0 0 $gridColor;
         width: 12px;
         height: 24px;
 
@@ -48,23 +52,27 @@ h3 {
         }
 
         &.odd-col {
-            box-shadow: inset 2px 1px 0 0 #ccc;
+            box-shadow: inset 2px 1px 0 0 $gridColor;
         }
 
         &.odd-row {
-            box-shadow: inset 1px 2px 0 0 #ccc;
+            box-shadow: inset 1px 2px 0 0 $gridColor;
         }
 
         &.selected {
             background-color: cyan;
         }
 
+        &.active.selected {
+            background-color: lightblue !important;
+        }
+
         &.odd-col.odd-row {
-            box-shadow: inset 2px 2px 0 0 #ccc;
+            box-shadow: inset 2px 2px 0 0 $gridColor;
         }
 
         &:last-child {
-            border-right: 2px solid #ccc;
+            border-right: 2px solid $gridColor;
         }
     }
 }
