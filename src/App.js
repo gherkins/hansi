@@ -119,9 +119,7 @@ function App () {
     }
     let count = 0
     for (let row in buffer) {
-      for (let col in buffer[row]) {
-        count++
-      }
+      count += Object.keys(buffer[row]).length
     }
     return count
   }
