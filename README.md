@@ -23,8 +23,10 @@ up to 10 characters.
 * Spacebar: clear current block 
 * Backspace: clear previous block
 * Tab: jump 4 blocks to the right
+* Shift + Tab: jump 4 blocks to the left
 
 
+* CMD + C: copy everything to clipboard
 * Shift + Arrow keys: select blocks
 * <del>Alt + Arrow keys: move selected block</del>
 * <del>C: copy selected block</del>

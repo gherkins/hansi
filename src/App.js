@@ -124,7 +124,15 @@ function App () {
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
+    clearSelection()
     cursorX = (cursorX + 4 < cols ? cursorX + 4 : cols - 1)
+    updateState({})
+  })
+
+  Mousetrap.bind('shift+tab', e => {
+    e.preventDefault()
+    clearSelection()
+    cursorX = (cursorX - 4 > 0 ? cursorX - 4 : 0)
     updateState({})
   })
 
