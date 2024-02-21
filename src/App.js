@@ -64,6 +64,9 @@ function App () {
   }
 
   const clearSelection = () => {
+    if (0 === getSelectionSize()) {
+      return false
+    }
     const selection = getSelection()
     for (let row = selection.from.y; row <= selection.to.y; row++) {
       for (let col = selection.from.x; col <= selection.to.x; col++) {
