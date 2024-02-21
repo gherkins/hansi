@@ -10,8 +10,11 @@ let buffer = null
 
 function App () {
 
-  const grid = (new Array(25)).fill(0).map(() =>
-    (new Array(100)).fill(0),
+  const rows = 15
+  const cols = 64
+
+  const grid = (new Array(rows)).fill(0).map(() =>
+    (new Array(cols)).fill(0),
   )
   const [contents] = useState(grid)
 
@@ -19,9 +22,6 @@ function App () {
   const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
 
   const [, updateState] = useState()
-
-  const rows = 15
-  const cols = 64
 
   let chars = decodeURIComponent(window.location.hash.substring(1)).split('')
   chars = chars.slice(0, 10)
@@ -38,27 +38,29 @@ function App () {
   }
 
   const getSelection = () => {
+    if (null === selectionFrom.x || null === selectionTo.x) {
+      return null
+    }
     return {
       from: {
-        x: Math.min(selectionFrom.x || -1, selectionTo.x || -1),
-        y: Math.min(selectionFrom.y || -1, selectionTo.y || -1),
+        x: Math.min(selectionFrom.x, selectionTo.x),
+        y: Math.min(selectionFrom.y, selectionTo.y),
       },
       to: {
-        x: Math.max(selectionFrom.x || -1, selectionTo.x || -1),
-        y: Math.max(selectionFrom.y || -1, selectionTo.y || -1),
+        x: Math.max(selectionFrom.x, selectionTo.x),
+        y: Math.max(selectionFrom.y, selectionTo.y),
       },
     }
   }
 
   const getSelectionSize = () => {
     const selection = getSelection()
+    if (null === selection) {
+      return 0
+    }
     let x = selection.to.x - selection.from.x
     let y = selection.to.y - selection.from.y
-    if (x > 0 || y > 0) {
-      x++
-      y++
-    }
-    return x * y
+    return (x + 1) * (y + 1)
   }
 
   const clearSelection = () => {
@@ -83,7 +85,6 @@ function App () {
         buffer[row][col] = contents[row][col] || ' '
       }
     }
-    updateState({})
   }
 
   const applyBuffer = () => {
@@ -105,12 +106,10 @@ function App () {
         }
       }
     }
-    updateState({})
   }
 
   const clearBuffer = () => {
     buffer = {}
-    updateState({})
   }
 
   const getBufferSize = () => {
@@ -244,22 +243,26 @@ function App () {
   Mousetrap.bind('c', e => {
     e.preventDefault()
     copySelectionToBuffer()
+    updateState({})
   })
 
   Mousetrap.bind('x', e => {
     e.preventDefault()
     copySelectionToBuffer()
     clearSelection()
+    updateState({})
   })
 
   Mousetrap.bind('v', e => {
     e.preventDefault()
     applyBuffer()
+    updateState({})
   })
 
   Mousetrap.bind('esc', e => {
     e.preventDefault()
     clearBuffer()
+    updateState({})
   })
 
   return (
@@ -281,7 +284,10 @@ function App () {
             const oddRow = row % 3 === 0
 
             const selection = getSelection()
-            const selected = row >= selection.from.y && row <= selection.to.y && col >= selection.from.x && col <= selection.to.x
+            let selected = false
+            if (null !== selection) {
+              selected = row >= selection.from.y && row <= selection.to.y && col >= selection.from.x && col <= selection.to.x
+            }
 
             const classes = [
               active ? 'active' : '',
@@ -308,7 +314,7 @@ function App () {
         </a> #rtfm
       </p>
       <p>
-        {String(getSelectionSize(getSelection())).padStart(4, '0')} chars selected<br />
+        {String(getSelectionSize()).padStart(4, '0')} chars selected<br />
         {String(getBufferSize()).padStart(4, '0')} chars in copy buffer
       </p>
     </div>
