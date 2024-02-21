@@ -6,6 +6,7 @@ import * as Mousetrap from 'mousetrap'
 
 let cursorX = 8
 let cursorY = 3
+let buffer = null
 
 function App () {
 
@@ -16,8 +17,6 @@ function App () {
 
   const [selectionFrom, setSelectionFrom] = useState({ x: null, y: null })
   const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
-
-  const [blocksSelected, setBlockSelected] = useState(0)
 
   const [, updateState] = useState()
 
@@ -33,7 +32,7 @@ function App () {
     updateState({})
   }
 
-  const clearSelection = () => {
+  const resetSelection = () => {
     setSelectionFrom({ x: null, y: null })
     setSelectionTo({ x: null, y: null })
   }
@@ -51,9 +50,9 @@ function App () {
     }
   }
 
-  const getBlockSize = (block) => {
-    let x = block.to.x - block.from.x
-    let y = block.to.y - block.from.y
+  const getSelectionSize = (selection) => {
+    let x = selection.to.x - selection.from.x
+    let y = selection.to.y - selection.from.y
     if (x > 0 || y > 0) {
       x++
       y++
@@ -61,29 +60,42 @@ function App () {
     return x * y
   }
 
-  const copyBlockToBuffer = (block) => {
+  const clearSelection = (block) => {
 
   }
 
-  const pasteBlock = (block) => {
-
-  }
-
-  const clearBlock = (block) => {
-
-  }
-
-  const getBuffer = () => {
-    return {
-      from: {
-        x: 0,
-        y: 0,
-      },
-      to: {
-        x: 0,
-        y: 0,
-      },
+  const copySelectionToBuffer = (block) => {
+    buffer = {}
+    const selection = getSelection()
+    for (let row = selection.from.y; row <= selection.to.y; row++) {
+      for (let col = selection.from.x; col <= selection.to.x; col++) {
+        buffer[row] = buffer[row] || {}
+        buffer[row][col] = contents[row][col] || ' '
+      }
     }
+    updateState({})
+  }
+
+  const applyBuffer = () => {
+
+  }
+
+  const clearBuffer = () => {
+    buffer = {}
+    updateState({})
+  }
+
+  const getBufferSize = () => {
+    if (null === buffer) {
+      return 0
+    }
+    let count = 0
+    for (let row in buffer) {
+      for (let col in buffer[row]) {
+        count++
+      }
+    }
+    return count
   }
 
   const moveCursorLeft = () => {
@@ -119,7 +131,7 @@ function App () {
 
   Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
     e.preventDefault()
-    clearSelection()
+    resetSelection()
     switch (e.key) {
       case 'ArrowUp':
         await moveCursorUp()
@@ -162,14 +174,14 @@ function App () {
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
-    clearSelection()
+    resetSelection()
     cursorX = (cursorX + 4 < cols ? cursorX + 4 : cols - 1)
     updateState({})
   })
 
   Mousetrap.bind('shift+tab', e => {
     e.preventDefault()
-    clearSelection()
+    resetSelection()
     cursorX = (cursorX - 4 > 0 ? cursorX - 4 : 0)
     updateState({})
   })
@@ -186,14 +198,14 @@ function App () {
 
   Mousetrap.bind('space', e => {
     e.preventDefault()
-    clearSelection()
+    resetSelection()
     contents[cursorY][cursorX] = ' '
     moveCursorRight()
   })
 
   Mousetrap.bind('backspace', e => {
     e.preventDefault()
-    clearSelection()
+    resetSelection()
     moveCursorLeft()
     contents[cursorY][cursorX] = ' '
   })
@@ -201,6 +213,27 @@ function App () {
   Mousetrap.bind('command+c', e => {
     e.preventDefault()
     copyAllToClipboard()
+  })
+
+  Mousetrap.bind('c', e => {
+    e.preventDefault()
+    copySelectionToBuffer()
+  })
+
+  Mousetrap.bind('x', e => {
+    e.preventDefault()
+    copySelectionToBuffer()
+    clearSelection()
+  })
+
+  Mousetrap.bind('v', e => {
+    e.preventDefault()
+    applyBuffer()
+  })
+
+  Mousetrap.bind('esc', e => {
+    e.preventDefault()
+    clearBuffer()
   })
 
   return (
@@ -249,8 +282,8 @@ function App () {
         </a> #rtfm
       </p>
       <p>
-        {String(getBlockSize(getSelection())).padStart(4, '0')} chars selected<br />
-        {String(getBlockSize(getBuffer())).padStart(4, '0')} in copy buffer
+        {String(getSelectionSize(getSelection())).padStart(4, '0')} chars selected<br />
+        {String(getBufferSize()).padStart(4, '0')} chars in copy buffer
       </p>
     </div>
   )
