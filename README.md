@@ -12,6 +12,8 @@ simply append any charset you like to the URL, like so:
 
 https://datenkatze.de/hansi/#|()([]){}
 
+up to 10 characters.
+
 ## CONTROLS:
 
 * Arrow keys: move cursor
@@ -23,7 +25,7 @@ https://datenkatze.de/hansi/#|()([]){}
 * Tab: jump 4 blocks to the right
 
 
-* <del>Shift + Arrow keys: select blocks</del>
+* Shift + Arrow keys: select blocks
 * <del>Alt + Arrow keys: move selected block</del>
 * <del>C: copy selected block</del>
 * <del>X: cut selected block</del>

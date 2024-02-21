@@ -4,13 +4,13 @@ import { useState } from 'react'
 
 import * as Mousetrap from 'mousetrap'
 
-let cursorX = 24
-let cursorY = 6
+let cursorX = 8
+let cursorY = 3
 
 function App () {
 
-  const rows = 24
-  const cols = 100
+  const rows = 15
+  const cols = 64
 
   let chars = decodeURIComponent(window.location.hash.substring(1)).split('')
   chars = chars.slice(0, 10)
@@ -46,6 +46,37 @@ function App () {
         y: Math.max(selectionFrom.y || -1, selectionTo.y || -1),
       },
     }
+  }
+
+  const moveCursorLeft = () => {
+    cursorX = (cursorX - 1 > 0 ? cursorX - 1 : 0)
+    updateState({})
+  }
+
+  const moveCursorRight = () => {
+    cursorX = (cursorX + 1 < cols ? cursorX + 1 : cols - 1)
+    updateState({})
+  }
+
+  const moveCursorUp = () => {
+    cursorY = (cursorY - 1 > 0 ? cursorY - 1 : 0)
+    updateState({})
+  }
+
+  const moveCursorDown = () => {
+    cursorY = (cursorY + 1 < rows ? cursorY + 1 : rows - 1)
+    updateState({})
+  }
+
+  const copyAllToClipboard = () => {
+    let text = ''
+    contents.forEach(row => {
+      row.forEach(char => {
+        text += char ? char : ' '
+      })
+      text += '\n'
+    })
+    navigator.clipboard.writeText(text)
   }
 
   Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
@@ -91,26 +122,6 @@ function App () {
     setSelectionTo({ x: cursorX, y: cursorY })
   })
 
-  const moveCursorLeft = () => {
-    cursorX = (cursorX - 1 > 0 ? cursorX - 1 : 0)
-    updateState({})
-  }
-
-  const moveCursorRight = () => {
-    cursorX = (cursorX + 1 < cols ? cursorX + 1 : cols - 1)
-    updateState({})
-  }
-
-  const moveCursorUp = () => {
-    cursorY = (cursorY - 1 > 0 ? cursorY - 1 : 0)
-    updateState({})
-  }
-
-  const moveCursorDown = () => {
-    cursorY = (cursorY + 1 < rows ? cursorY + 1 : rows - 1)
-    updateState({})
-  }
-
   Mousetrap.bind('tab', e => {
     e.preventDefault()
     cursorX = (cursorX + 4 < cols ? cursorX + 4 : cols - 1)
@@ -141,10 +152,14 @@ function App () {
     contents[cursorY][cursorX] = ' '
   })
 
+  Mousetrap.bind('command+c', e => {
+    e.preventDefault()
+    copyAllToClipboard()
+  })
+
   return (
     <div className="container">
-      <h3>
-
+      <h3 className="py-2">
         {chars.map((char, i) => {
           let key = i + 1
           if (key === 10) {
@@ -152,18 +167,6 @@ function App () {
           }
           return <button key={i}>{char}<sub>{key}</sub></button>
         })}
-        <button onClick={() => {
-          let text = ''
-          contents.forEach(row => {
-            row.forEach(char => {
-              text += char ? char : ' '
-            })
-            text += '\n'
-          })
-
-          navigator.clipboard.writeText(text)
-        }}>copy all
-        </button>
       </h3>
       <div className="ansi">
         {(new Array(rows)).fill(0).map((i, row) => <div key={row}>
@@ -191,6 +194,11 @@ function App () {
           })}
         </div>)}
       </div>
+      <p className="pt-4 text-muted">
+        <a href="https://github.com/gherkins/hansi" className="text-muted">
+          https://github.com/gherkins/hansi
+        </a> #rtfm
+      </p>
     </div>
   )
 }
