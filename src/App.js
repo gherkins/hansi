@@ -8,6 +8,12 @@ let cursorX = 8
 let cursorY = 3
 let buffer = null
 
+setTimeout(() => {
+  window.onbeforeunload = () => {
+    return false
+  }
+}, 5000)
+
 function App () {
 
   const rows = 15
