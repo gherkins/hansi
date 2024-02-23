@@ -19,25 +19,25 @@ up to 10 characters.
 
 ## CONTROLS:
 
-> **Arrow keys**: move cursor    
-> **Number keys**: write character in current field
+> <kbd>Arrow keys</kbd>: move cursor    
+> <kbd>Number keys</kbd>: write character in current field
 
-> **Space**: clear current field  
-> **Backspace**: clear previous field
+> <kbd>Space</kbd>: clear current field  
+> <kbd>Backspace</kbd>: clear previous field
 
-> **Tab**: jump 4 fields to the right  
-> **Shift + Tab**: jump 4 fields to the left
+> <kbd>Tab</kbd>: jump 4 fields to the right  
+> <kbd>Shift + Tab</kbd>: jump 4 fields to the left
+
+> <kbd>Shift + Arrow keys</kbd>: select fields as block  
+> <kbd>Alt + Arrow keys</kbd>: move selected block
+> <kbd>C</kbd>: copy selected block to buffer  
+> <kbd>X</kbd>: cut selected block to buffer  
+> <kbd>V</kbd>: paste buffer to cursor position  
+
+> <kbd>ESC</kbd>: clear selected block  
 
 
-> **Shift + Arrow keys**: select fields as block  
-> **Alt + Arrow keys**: move selected block
-> **C**: copy selected block to buffer  
-> **X**: cut selected block to buffer  
-> **V**: paste buffer to cursor position  
-> **ESC**: clear selected block  
-
-
-> **CMD + C**: copy everything to clipboard
+> </kbd>CMD + C</kbd>: copy everything to clipboard
 
 --------------------------------------
 ---
