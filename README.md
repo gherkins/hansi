@@ -37,7 +37,7 @@ up to 10 characters.
 > <kbd>ESC</kbd>: clear selected block  
 
 
-> </kbd>CMD + C</kbd>: copy everything to clipboard
+> <kbd>CMD + C</kbd>: copy everything to clipboard
 
 --------------------------------------
 ---
