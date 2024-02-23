@@ -29,7 +29,7 @@ up to 10 characters.
 <kbd>Shift + Tab</kbd>: jump 4 fields to the left
 
 <kbd>Shift + Arrow keys</kbd>: select fields as block  
-<kbd>Alt + Arrow keys</kbd>: move selected block
+<kbd>Alt + Arrow keys</kbd>: move selected block  
 <kbd>C</kbd>: copy selected block to buffer  
 <kbd>X</kbd>: cut selected block to buffer  
 <kbd>V</kbd>: paste buffer to cursor position  
