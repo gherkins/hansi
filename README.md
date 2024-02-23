@@ -1,10 +1,13 @@
-# hANSI - minimalist text art editor   
+# hANSI - minimalist text art editor
 
-## LIVE: 
+## LIVE:
 
-https://datenkatze.de/hansi/
+> https://datenkatze.de/hansi/
 
-## CHARSET:
+font: Modified Topaz Kickstart 2.x+   
+courtesy of https://github.com/rewtnull/amigafonts/ 🖤
+
+## CHANGE CHARSET (!):
 
 default charset: ```|_/\:\`´-'```
 
@@ -16,32 +19,30 @@ up to 10 characters.
 
 ## CONTROLS:
 
-- Arrow keys: move cursor
-- Number keys: write character in current field
+> **Arrow keys**: move cursor    
+> **Number keys**: write character in current field
+
+> **Space**: clear current field  
+> **Backspace**: clear previous field
+
+> **Tab**: jump 4 fields to the right  
+> **Shift + Tab**: jump 4 fields to the left
 
 
-- Space: clear current field
-- Backspace: clear previous field
+> **Shift + Arrow keys**: select fields as block  
+> **Alt + Arrow keys**: move selected block
+> **C**: copy selected block to buffer  
+> **X**: cut selected block to buffer  
+> **V**: paste buffer to cursor position  
+> **ESC**: clear selected block  
 
 
-- Tab: jump 4 fields to the right
-- Shift + Tab: jump 4 fields to the left
-
-
-- Shift + Arrow keys: select fields as block
-- Alt + Arrow keys: move selected block
-- C: copy selected block to buffer
-- X: cut selected block to buffer
-- V: paste buffer to cursor position
-- ESC: clear selected block
-
-
-- CMD + C: copy everything to clipboard
+> **CMD + C**: copy everything to clipboard
 
 --------------------------------------
 ---
 
-##  bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 
