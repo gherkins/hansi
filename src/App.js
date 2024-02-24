@@ -1,6 +1,6 @@
 import './App.scss'
 import 'bootstrap/dist/css/bootstrap.css'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import * as Mousetrap from 'mousetrap'
 
@@ -53,7 +53,6 @@ function App () {
       setContents(history[history.length - 1])
       history.pop()
       resetSelection()
-      updateState({})
     }
   }
 
@@ -164,22 +163,18 @@ function App () {
 
   const moveCursorLeft = () => {
     cursorX = (cursorX - 1 > 0 ? cursorX - 1 : 0)
-    updateState({})
   }
 
   const moveCursorRight = () => {
     cursorX = (cursorX + 1 < cols ? cursorX + 1 : cols - 1)
-    updateState({})
   }
 
   const moveCursorUp = () => {
     cursorY = (cursorY - 1 > 0 ? cursorY - 1 : 0)
-    updateState({})
   }
 
   const moveCursorDown = () => {
     cursorY = (cursorY + 1 < rows ? cursorY + 1 : rows - 1)
-    updateState({})
   }
 
   const copyAllToClipboard = () => {
@@ -253,14 +248,12 @@ function App () {
     e.preventDefault()
     resetSelection()
     cursorX = (cursorX + 4 < cols ? cursorX + 4 : cols - 1)
-    updateState({})
   })
 
   Mousetrap.bind('shift+tab', e => {
     e.preventDefault()
     resetSelection()
     cursorX = (cursorX - 4 > 0 ? cursorX - 4 : 0)
-    updateState({})
   })
 
   Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], e => {
@@ -272,6 +265,7 @@ function App () {
     }
     contents[cursorY][cursorX] = chars[key - 1]
     moveCursorRight()
+    updateState({})
   })
 
   Mousetrap.bind('space', e => {
@@ -282,6 +276,7 @@ function App () {
       contents[cursorY][cursorX] = ' '
     }
     moveCursorRight()
+    updateState({})
   })
 
   Mousetrap.bind('backspace', e => {
@@ -292,6 +287,7 @@ function App () {
       saveState()
       contents[cursorY][cursorX] = ' '
     }
+    updateState({})
   })
 
   Mousetrap.bind('command+c', e => {
@@ -302,7 +298,6 @@ function App () {
   Mousetrap.bind('c', e => {
     e.preventDefault()
     copySelectionToBuffer()
-    updateState({})
   })
 
   Mousetrap.bind('x', e => {
