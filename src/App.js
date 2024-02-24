@@ -43,7 +43,7 @@ function App () {
 
   const saveState = () => {
     history.push((JSON.parse(JSON.stringify(contents))))
-    if (history.length > 100) {
+    if (history.length > 1000) {
       history.shift()
     }
   }
@@ -372,16 +372,14 @@ function App () {
         </div>)}
       </div>
       <p className="pt-4 text-muted">
-        <a href="https://github.com/gherkins/hansi"
-           target="_blank"
-           rel="noreferrer"
-           className="text-muted">
-          https://github.com/gherkins/hansi
-        </a> #rtfm
-      </p>
-      <p>
-        {String(getSelectionSize()).padStart(4, '0')} chars selected<br />
-        {String(getBufferSize()).padStart(4, '0')} chars in copy buffer
+        <small>
+          <a href="https://github.com/gherkins/hansi"
+             target="_blank"
+             rel="noreferrer"
+             className="text-muted">
+            https://github.com/gherkins/hansi
+          </a> #rtfm
+        </small>
       </p>
     </div>
   )
