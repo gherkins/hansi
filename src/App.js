@@ -52,6 +52,7 @@ function App () {
     if (history.length > 0) {
       setContents(history[history.length - 1])
       history.pop()
+      resetSelection()
       updateState({})
     }
   }
