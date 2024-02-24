@@ -16,8 +16,10 @@ setTimeout(() => {
 
 function App () {
 
-  const rows = 15
-  const cols = 64
+  const queryString = window.location.search
+  const urlParams = new URLSearchParams(queryString)
+  const rows = parseInt(urlParams.get('rows')) || 15
+  const cols = parseInt(urlParams.get('cols')) || 64
 
   const grid = (new Array(rows)).fill(0).map(() =>
     (new Array(cols)).fill(0),

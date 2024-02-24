@@ -7,16 +7,6 @@
 font: Modified Topaz Kickstart 2.x+   
 courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 
-## CHANGE CHARSET (!):
-
-default charset: ```|_/\:\`´-'```
-
-simply append any charset you like to the URL, like so:
-
-https://datenkatze.de/hansi/#|()([]){}
-
-up to 10 characters.
-
 ## CONTROLS:
 
 <kbd>Arrow keys</kbd>: move cursor  
@@ -36,6 +26,22 @@ up to 10 characters.
 <kbd>ESC</kbd>: clear selected block
 
 <kbd>CMD + C</kbd>: copy everything to clipboard
+
+## CHANGE CHARSET (optional):
+
+default charset: ```|_/\:\`´-'```
+
+simply append any charset you like to the URL, like so:
+
+https://datenkatze.de/hansi/#|()([]){}
+
+up to 10 characters.
+
+## CHANGE ROWS & COLS (optional):
+
+append ```?cols=40&rows=10``` to the URL, like so:
+
+https://datenkatze.de/hansi/?cols=40&rows=10#C1H2A3R4
 
 --------------------------------------
 ---
