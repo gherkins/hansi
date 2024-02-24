@@ -63,8 +63,8 @@ $gridColor: #343a41;
             background-color: lighten($gridColor, 5);
         }
 
-        &.selected.active {
-            background-color: lighten($gridColor, 20) !important;
+        &.buffer-target {
+            background-color: lighten(#000, 19);
         }
 
         &.odd-col.odd-row {

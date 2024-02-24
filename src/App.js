@@ -1,6 +1,6 @@
 import './App.scss'
 import 'bootstrap/dist/css/bootstrap.css'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 import * as Mousetrap from 'mousetrap'
 
@@ -126,8 +126,17 @@ function App () {
     return [bufferEndY, bufferEndX]
   }
 
+  const getBufferDimensions = () => {
+    if (buffer === null) {
+      return [0, 0]
+    }
+    const x = getBufferEnd()[1] - getBufferStart()[1]
+    const y = getBufferEnd()[0] - getBufferStart()[0]
+    return [x, y]
+  }
+
   const applyBuffer = () => {
-    if (0 === getBufferSize()) {
+    if (null === buffer) {
       return false
     }
     const [bufferStartY, bufferStartX] = getBufferStart()
@@ -147,18 +156,7 @@ function App () {
   }
 
   const clearBuffer = () => {
-    buffer = {}
-  }
-
-  const getBufferSize = () => {
-    if (null === buffer) {
-      return 0
-    }
-    let count = 0
-    for (let row in buffer) {
-      count += Object.keys(buffer[row]).length
-    }
-    return count
+    buffer = null
   }
 
   const moveCursorLeft = () => {
@@ -339,33 +337,39 @@ function App () {
         })}
       </h3>
       <div className="ansi">
-        {(new Array(rows)).fill(0).map((i, row) => <div key={row}>
-          {(new Array(cols)).fill(0).map((i, col) => {
-            const active = cursorY === row && cursorX === col
-            const oddCol = col % 4 === 0
-            const oddRow = row % 3 === 0
+        {(new Array(rows)).fill(0).map((i, row) => {
+          const [bufferWidth, bufferHeight] = getBufferDimensions()
+          return <div key={row}>
+            {(new Array(cols)).fill(0).map((i, col) => {
+              const active = cursorY === row && cursorX === col
+              const oddCol = col % 4 === 0
+              const oddRow = row % 3 === 0
 
-            const selection = getSelection()
-            let selected = false
-            if (null !== selection) {
-              selected = row >= selection.from.y && row <= selection.to.y && col >= selection.from.x && col <= selection.to.x
-            }
+              const bufferTarget = row >= cursorY && row <= cursorY + bufferHeight && col >= cursorX && col <= cursorX + bufferWidth
 
-            const classes = [
-              active ? 'active' : '',
-              oddCol ? 'odd-col' : '',
-              oddRow ? 'odd-row' : '',
-              selected ? 'selected' : '',
-            ]
+              const selection = getSelection()
+              let selected = false
+              if (null !== selection) {
+                selected = row >= selection.from.y && row <= selection.to.y && col >= selection.from.x && col <= selection.to.x
+              }
 
-            return <span
-              className={classes.join(' ')}
-              key={`${row}-${col}`}
-            >
+              const classes = [
+                active ? 'active' : '',
+                oddCol ? 'odd-col' : '',
+                oddRow ? 'odd-row' : '',
+                selected ? 'selected' : '',
+                bufferTarget ? 'buffer-target' : '',
+              ]
+
+              return <span
+                className={classes.join(' ')}
+                key={`${row}-${col}`}
+              >
               {contents[row][col] || ' '}
             </span>
-          })}
-        </div>)}
+            })}
+          </div>
+        })}
       </div>
       <p className="pt-4 text-muted">
         <small>
