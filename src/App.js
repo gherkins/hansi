@@ -24,7 +24,8 @@ function App () {
   const grid = (new Array(rows)).fill(0).map(() =>
     (new Array(cols)).fill(0),
   )
-  const [contents] = useState(grid)
+  const [contents, setContents] = useState(grid)
+  const [history] = useState([contents])
 
   const [selectionFrom, setSelectionFrom] = useState({ x: null, y: null })
   const [selectionTo, setSelectionTo] = useState({ x: null, y: null })
@@ -38,6 +39,21 @@ function App () {
     const hash = '|_/\\:`´-\''
     window.location.hash = `#${encodeURIComponent(hash)}`
     updateState({})
+  }
+
+  const saveState = () => {
+    history.push((JSON.parse(JSON.stringify(contents))))
+    if (history.length > 100) {
+      history.shift()
+    }
+  }
+
+  const undo = () => {
+    if (history.length > 0) {
+      setContents(history[history.length - 1])
+      history.pop()
+      updateState({})
+    }
   }
 
   const resetSelection = () => {
@@ -214,6 +230,7 @@ function App () {
     if (0 === getSelectionSize()) {
       return false
     }
+    saveState()
     copySelectionToBuffer()
     clearSelection()
     resetSelection()
@@ -247,6 +264,7 @@ function App () {
 
   Mousetrap.bind(['1', '2', '3', '4', '5', '6', '7', '8', '9', '0'], e => {
     e.preventDefault()
+    saveState()
     let key = parseInt(e.key)
     if (key === 0) {
       key = 10
@@ -258,7 +276,10 @@ function App () {
   Mousetrap.bind('space', e => {
     e.preventDefault()
     resetSelection()
-    contents[cursorY][cursorX] = ' '
+    if (contents[cursorY][cursorX] && contents[cursorY][cursorX] !== ' ') {
+      saveState()
+      contents[cursorY][cursorX] = ' '
+    }
     moveCursorRight()
   })
 
@@ -266,7 +287,10 @@ function App () {
     e.preventDefault()
     resetSelection()
     moveCursorLeft()
-    contents[cursorY][cursorX] = ' '
+    if (contents[cursorY][cursorX] && contents[cursorY][cursorX] !== ' ') {
+      saveState()
+      contents[cursorY][cursorX] = ' '
+    }
   })
 
   Mousetrap.bind('command+c', e => {
@@ -282,6 +306,7 @@ function App () {
 
   Mousetrap.bind('x', e => {
     e.preventDefault()
+    saveState()
     copySelectionToBuffer()
     clearSelection()
     updateState({})
@@ -289,6 +314,7 @@ function App () {
 
   Mousetrap.bind('v', e => {
     e.preventDefault()
+    saveState()
     applyBuffer()
     updateState({})
   })
@@ -296,6 +322,12 @@ function App () {
   Mousetrap.bind('esc', e => {
     e.preventDefault()
     clearBuffer()
+    updateState({})
+  })
+
+  Mousetrap.bind('z', e => {
+    e.preventDefault()
+    undo()
     updateState({})
   })
 
