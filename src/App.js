@@ -225,6 +225,7 @@ function App () {
 
   Mousetrap.bind(['shift+up', 'shift+down', 'shift+left', 'shift+right'], async e => {
     e.preventDefault()
+    buffer = null
     if (null === selectionFrom.x) {
       setSelectionFrom({ x: cursorX, y: cursorY })
     }
