@@ -46,6 +46,7 @@ $gridColor: #343a41;
         box-shadow: inset 1px 1px 0 0 $gridColor;
         width: 12px;
         height: 24px;
+        overflow: hidden !important;
 
         &.active {
             background-color: #f50 !important;
