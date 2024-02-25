@@ -49,11 +49,10 @@ function App () {
   }
 
   const undo = () => {
-    if (history.length > 0) {
-      setContents(history[history.length - 1])
-      history.pop()
-      resetSelection()
+    if (history.length <= 1) {
+      return false
     }
+    setContents(history.pop())
   }
 
   const resetSelection = () => {
@@ -321,6 +320,7 @@ function App () {
 
   Mousetrap.bind('z', e => {
     e.preventDefault()
+    resetSelection()
     undo()
     updateState({})
   })
