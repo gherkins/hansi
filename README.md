@@ -31,8 +31,9 @@ courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 <kbd>CMD + C</kbd>: copy everything to clipboard (export)  
 <kbd>CMD + V</kbd>: paste everything from clipboard (import)
 
+--------------------------------------
 
-## CHANGE CHARSET (optional):
+## CHANGE CHARSET:
 
 default charset: ```|_/\:\`´-'```
 
@@ -43,7 +44,6 @@ https://datenkatze.de/hansi/#|()([]){}
 up to 10 characters.
 
 --------------------------------------
----
 
 ## bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
