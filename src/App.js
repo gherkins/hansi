@@ -15,12 +15,9 @@ setTimeout(() => {
   }
 }, 5000)
 
-function App () {
-
-  const queryString = window.location.search
-  const urlParams = new URLSearchParams(queryString)
-  const rows = parseInt(urlParams.get('rows')) || 15
-  const cols = parseInt(urlParams.get('cols')) || 64
+function App (props) {
+  const cols = Math.floor(props.containerWidth / 12) - 2
+  const rows = Math.floor(cols / 4)
 
   const grid = (new Array(rows)).fill(0).map(() =>
     (new Array(cols)).fill(0),
@@ -383,7 +380,7 @@ function App () {
   })
 
   return (
-    <div className="container">
+    <div>
       <h3 className="py-2">
         {chars.map((char, i) => {
           let key = i + 1
@@ -393,7 +390,7 @@ function App () {
           return <button key={i}>{char}<sub>{key}</sub></button>
         })}
       </h3>
-      <div className={`ansi ${showGrid ? '': 'no-grid'}`}>
+      <div className={`ansi ${showGrid ? '' : 'no-grid'}`}>
         {(new Array(rows)).fill(0).map((i, row) => {
           const [bufferWidth, bufferHeight] = getBufferDimensions()
           return <div key={row}>

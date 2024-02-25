@@ -42,12 +42,6 @@ https://datenkatze.de/hansi/#|()([]){}
 
 up to 10 characters.
 
-## CHANGE ROWS & COLS (optional):
-
-append ```?cols=40&rows=10``` to the URL, like so:
-
-https://datenkatze.de/hansi/?cols=40&rows=10#C1H2A3R4
-
 --------------------------------------
 ---
 
