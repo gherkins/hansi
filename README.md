@@ -25,8 +25,11 @@ courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 <kbd>V</kbd>: paste buffer to cursor position  
 <kbd>ESC</kbd>: clear selected block
 
-<kbd>Z</kbd>: undo last action  
-<kbd>CMD + C</kbd>: copy everything to clipboard
+<kbd>Z</kbd>: undo last action   
+
+<kbd>CMD + C</kbd>: copy everything to clipboard (export)  
+<kbd>CMD + V</kbd>: paste everything from clipboard (import)
+
 
 ## CHANGE CHARSET (optional):
 

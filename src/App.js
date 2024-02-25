@@ -199,6 +199,25 @@ function App () {
     navigator.clipboard.writeText(text)
   }
 
+  const pasteAllFromClipboard = async () => {
+    try {
+      const text = await navigator.clipboard.readText()
+      const newContents = text.split('\n').map(row => row.split(''))
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          if (newContents[row] && newContents[row][col]) {
+            contents[row][col] = newContents[row][col]
+          } else {
+            contents[row][col] = ' '
+          }
+        }
+      }
+      updateState({})
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
   const handleCursorMovement = async key => {
     switch (key) {
       case 'ArrowUp':
@@ -305,6 +324,12 @@ function App () {
   Mousetrap.bind('command+c', e => {
     e.preventDefault()
     copyAllToClipboard()
+  })
+
+  Mousetrap.bind('command+v', e => {
+    e.preventDefault()
+    pasteAllFromClipboard()
+    updateState({})
   })
 
   Mousetrap.bind('c', e => {
