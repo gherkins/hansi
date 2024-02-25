@@ -7,6 +7,7 @@ import * as Mousetrap from 'mousetrap'
 let cursorX = 8
 let cursorY = 3
 let buffer = null
+let showGrid = true
 
 setTimeout(() => {
   window.onbeforeunload = () => {
@@ -39,6 +40,10 @@ function App () {
     const hash = '|_/\\:`´-\''
     window.location.hash = `#${encodeURIComponent(hash)}`
     updateState({})
+  }
+
+  const toggleGrid = () => {
+    showGrid = !showGrid
   }
 
   const saveState = () => {
@@ -359,7 +364,14 @@ function App () {
 
   Mousetrap.bind('esc', e => {
     e.preventDefault()
+    clearSelection()
     clearBuffer()
+    updateState({})
+  })
+
+  Mousetrap.bind('g', e => {
+    e.preventDefault()
+    toggleGrid()
     updateState({})
   })
 
@@ -381,7 +393,7 @@ function App () {
           return <button key={i}>{char}<sub>{key}</sub></button>
         })}
       </h3>
-      <div className="ansi">
+      <div className={`ansi ${showGrid ? '': 'no-grid'}`}>
         {(new Array(rows)).fill(0).map((i, row) => {
           const [bufferWidth, bufferHeight] = getBufferDimensions()
           return <div key={row}>

@@ -26,6 +26,7 @@ courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 <kbd>ESC</kbd>: clear selected block
 
 <kbd>Z</kbd>: undo last action   
+<kbd>G</kbd>: toggle grid (default on)
 
 <kbd>CMD + C</kbd>: copy everything to clipboard (export)  
 <kbd>CMD + V</kbd>: paste everything from clipboard (import)

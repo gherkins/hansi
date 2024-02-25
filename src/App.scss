@@ -34,6 +34,11 @@ $gridColor: #343a41;
     font-size: 24px;
     line-height: 1;
 
+    &.no-grid * {
+        box-shadow: none !important;
+        border: none !important;
+    }
+
     div:last-child {
         span {
             border-bottom: 2px solid $gridColor;
