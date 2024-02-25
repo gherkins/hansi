@@ -55,7 +55,7 @@ function App () {
     setContents(history.pop())
   }
 
-  const resetSelection = () => {
+  const clearSelection = () => {
     setSelectionFrom({ x: null, y: null })
     setSelectionTo({ x: null, y: null })
   }
@@ -86,15 +86,21 @@ function App () {
     return (x + 1) * (y + 1)
   }
 
-  const clearSelection = () => {
+  const deleteField = (col, row) => {
+    if (!contents[row] || !contents[row][col]) {
+      return false
+    }
+    contents[row][col] = ' '
+  }
+
+  const deleteFieldsInSelection = () => {
     if (0 === getSelectionSize()) {
       return false
     }
     const selection = getSelection()
     for (let row = selection.from.y; row <= selection.to.y; row++) {
       for (let col = selection.from.x; col <= selection.to.x; col++) {
-        contents[row] = contents[row] || {}
-        contents[row][col] = ' '
+        deleteField(col, row)
       }
     }
   }
@@ -174,6 +180,14 @@ function App () {
     cursorY = (cursorY + 1 < rows ? cursorY + 1 : rows - 1)
   }
 
+  const setCursorToSelectionStart = () => {
+    const selection = getSelection()
+    if (null !== selection) {
+      cursorX = selection.from.x
+      cursorY = selection.from.y
+    }
+  }
+
   const copyAllToClipboard = () => {
     let text = ''
     contents.forEach(row => {
@@ -205,7 +219,7 @@ function App () {
 
   Mousetrap.bind(['up', 'down', 'left', 'right'], async e => {
     e.preventDefault()
-    resetSelection()
+    clearSelection()
     await handleCursorMovement(e.key)
   })
 
@@ -225,8 +239,8 @@ function App () {
     }
     saveState()
     copySelectionToBuffer()
+    deleteFieldsInSelection()
     clearSelection()
-    resetSelection()
     const [bufferStartY, bufferStartX] = getBufferStart()
     const [bufferEndY, bufferEndX] = getBufferEnd()
     const bufferWidth = bufferEndX - bufferStartX
@@ -243,13 +257,13 @@ function App () {
 
   Mousetrap.bind('tab', e => {
     e.preventDefault()
-    resetSelection()
+    clearSelection()
     cursorX = (cursorX + 4 < cols ? cursorX + 4 : cols - 1)
   })
 
   Mousetrap.bind('shift+tab', e => {
     e.preventDefault()
-    resetSelection()
+    clearSelection()
     cursorX = (cursorX - 4 > 0 ? cursorX - 4 : 0)
   })
 
@@ -267,10 +281,10 @@ function App () {
 
   Mousetrap.bind('space', e => {
     e.preventDefault()
-    resetSelection()
+    clearSelection()
     if (contents[cursorY][cursorX] && contents[cursorY][cursorX] !== ' ') {
       saveState()
-      contents[cursorY][cursorX] = ' '
+      deleteField(cursorX, cursorY)
     }
     moveCursorRight()
     updateState({})
@@ -278,11 +292,11 @@ function App () {
 
   Mousetrap.bind('backspace', e => {
     e.preventDefault()
-    resetSelection()
+    clearSelection()
     moveCursorLeft()
     if (contents[cursorY][cursorX] && contents[cursorY][cursorX] !== ' ') {
       saveState()
-      contents[cursorY][cursorX] = ' '
+      deleteField(cursorX, cursorY)
     }
     updateState({})
   })
@@ -295,12 +309,17 @@ function App () {
   Mousetrap.bind('c', e => {
     e.preventDefault()
     copySelectionToBuffer()
+    setCursorToSelectionStart()
+    clearSelection()
+    updateState({})
   })
 
   Mousetrap.bind('x', e => {
     e.preventDefault()
     saveState()
     copySelectionToBuffer()
+    deleteFieldsInSelection()
+    setCursorToSelectionStart()
     clearSelection()
     updateState({})
   })
@@ -320,7 +339,7 @@ function App () {
 
   Mousetrap.bind('z', e => {
     e.preventDefault()
-    resetSelection()
+    clearSelection()
     undo()
     updateState({})
   })
