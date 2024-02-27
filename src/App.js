@@ -95,6 +95,10 @@ function App (props) {
     contents[row][col] = ' '
   }
 
+  const fieldIsEmpty = (col, row) => {
+    return !contents[cursorY][cursorX] || contents[cursorY][cursorX] === ' '
+  }
+
   const deleteFieldsInSelection = () => {
     if (0 === getSelectionSize()) {
       return false
@@ -303,23 +307,29 @@ function App (props) {
 
   Mousetrap.bind('space', e => {
     e.preventDefault()
-    clearSelection()
-    if (contents[cursorY][cursorX] && contents[cursorY][cursorX] !== ' ') {
+    if (getSelectionSize() > 0) {
+      saveState()
+      deleteFieldsInSelection()
+    } else if (!fieldIsEmpty(cursorX, cursorY)) {
       saveState()
       deleteField(cursorX, cursorY)
     }
+    clearSelection()
     moveCursorRight()
     updateState({})
   })
 
   Mousetrap.bind('backspace', e => {
     e.preventDefault()
-    clearSelection()
     moveCursorLeft()
-    if (contents[cursorY][cursorX] && contents[cursorY][cursorX] !== ' ') {
+    if (getSelectionSize() > 0) {
+      saveState()
+      deleteFieldsInSelection()
+    } else if (!fieldIsEmpty(cursorX, cursorY)) {
       saveState()
       deleteField(cursorX, cursorY)
     }
+    clearSelection()
     updateState({})
   })
 
@@ -425,15 +435,16 @@ function App (props) {
           </div>
         })}
       </div>
-      <p className="pt-4 text-muted">
-        <small>
-          <a href="https://github.com/gherkins/hansi"
-             target="_blank"
-             rel="noreferrer"
-             className="text-muted">
-            https://github.com/gherkins/hansi
-          </a> #rtfm
-        </small>
+      <p className="pt-4">
+        <span>{`${cursorY + 1}`.padStart(3, 0)}:{`${cursorX + 1}`.padStart(3, 0)}</span><br />
+      </p>
+      <p className="text-muted">
+        <a href="https://github.com/gherkins/hansi"
+           target="_blank"
+           rel="noreferrer"
+           className="text-muted">
+          https://github.com/gherkins/hansi
+        </a> #rtfm
       </p>
     </div>
   )
