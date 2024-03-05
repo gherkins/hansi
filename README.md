@@ -33,15 +33,10 @@ courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 
 --------------------------------------
 
-## CHANGE CHARSET:
+## CHANGE CHARS:
 
-default charset: ```|_/\:\`´-'```
-
-simply append any charset you like to the URL, like so:
-
-https://datenkatze.de/hansi/#|()([]){}
-
-up to 10 characters.
+Double-Click a Character to change it.  
+Characters are saved in the URL.
 
 --------------------------------------
 

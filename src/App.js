@@ -30,13 +30,18 @@ function App (props) {
 
   const [, updateState] = useState()
 
-  let chars = decodeURIComponent(window.location.hash.substring(1)).split('')
-  chars = chars.slice(0, 10)
+  let chars = decodeURIComponent(window.location.hash.substring(1))
+    .split('')
+    .slice(0, 10)
+
+  const changeChars = (newChars) => {
+    chars = newChars.slice(0, 10)
+    window.location.hash = `#${encodeURIComponent(chars.join(''))}`
+    updateState({})
+  }
 
   if (chars.length === 0) {
-    const hash = '|_/\\:`´-\''
-    window.location.hash = `#${encodeURIComponent(hash)}`
-    updateState({})
+    changeChars(['|', '_', '/', '\\', ':', '`', '´', '-', '\'', '~'])
   }
 
   const toggleGrid = () => {
@@ -397,7 +402,17 @@ function App (props) {
           if (key === 10) {
             key = 0
           }
-          return <button key={i}>{char}<sub>{key}</sub></button>
+          return <button key={i}>
+            <input type="text"
+                   value={char}
+                   className="form-control-sm"
+                   onChange={(e) => {
+                     chars[i] = e.target.value
+                     changeChars(chars)
+                   }}
+            />
+            <sub>{key}</sub>
+          </button>
         })}
       </h3>
       <div className={`ansi ${showGrid ? '' : 'no-grid'}`}>
