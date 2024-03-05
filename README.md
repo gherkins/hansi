@@ -4,8 +4,12 @@
 
 > https://datenkatze.de/hansi/
 
-font: Modified Topaz Kickstart 2.x+   
-courtesy of https://github.com/rewtnull/amigafonts/ 🖤
+--------------------------------------
+
+## CHANGE CHARS:
+
+Double-Click a Character to change it.  
+Characters are saved in the URL.
 
 ## CONTROLS:
 
@@ -33,12 +37,13 @@ courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 
 --------------------------------------
 
-## CHANGE CHARS:
+## FONT
 
-Double-Click a Character to change it.  
-Characters are saved in the URL.
+Modified Topaz Kickstart 2.x+   
+courtesy of https://github.com/rewtnull/amigafonts/ 🖤
 
 --------------------------------------
+
 
 ## bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
