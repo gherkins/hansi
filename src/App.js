@@ -396,25 +396,27 @@ function App (props) {
 
   return (
     <div>
-      <h3 className="py-2">
-        {chars.map((char, i) => {
-          let key = i + 1
-          if (key === 10) {
-            key = 0
-          }
-          return <button key={i}>
-            <input type="text"
-                   value={char}
-                   className="form-control-sm"
-                   onChange={(e) => {
-                     chars[i] = e.target.value
-                     changeChars(chars)
-                   }}
-            />
-            <sub>{key}</sub>
-          </button>
-        })}
-      </h3>
+      <header>
+        <div className="py-2">
+          {chars.map((char, i) => {
+            let key = i + 1
+            if (key === 10) {
+              key = 0
+            }
+            return <button key={i}>
+              <input type="text"
+                     value={char}
+                     className="form-control-sm"
+                     onChange={(e) => {
+                       chars[i] = e.target.value
+                       changeChars(chars)
+                     }}
+              />
+              <sub>{key}</sub>
+            </button>
+          })}
+        </div>
+      </header>
       <div className={`ansi ${showGrid ? '' : 'no-grid'}`}>
         {(new Array(rows)).fill(0).map((i, row) => {
           const [bufferWidth, bufferHeight] = getBufferDimensions()
